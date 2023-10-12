@@ -1,0 +1,138 @@
+﻿<!DOCTYPE html>
+<style>
+    /* CSS for the navigation link animation */
+    .nav-link {
+        text-decoration: none; /* Remove underline from links */
+        color: white; /* Set the text color for inactive links */
+        position: relative; /* Position relative for pseudo-elements */
+        transition: color 0.3s ease, background-color 0.3s ease;
+    }
+
+        .nav-link:before {
+            content: "";
+            position: absolute;
+            bottom: -2px; /* Adjust the underline position */
+            left: 0;
+            right: 0;
+            height: 2px; /* Adjust the underline thickness */
+            background-color: transparent;
+            transition: background-color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: #333; /* Change the text color on hover */
+        }
+
+            .nav-link:hover:before {
+                background-color: #333; /* Add a subtle underline on hover */
+            }
+
+        .nav-link:active {
+            background-color: #555; /* Change the background color on click */
+        }
+
+            .nav-link:active:before {
+                background-color: #555; /* Change the underline color on click */
+            }
+
+</style>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - InventoryManagment</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Inventory_Managment.styles.css" asp-append-version="true" />
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: black;" mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Inventory Managment</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link active" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class ="nav-link active" asp-area="" asp-controller="ItemMasters" asp-action="Index">ItemMaster</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" asp-area="" asp-controller="Transactions" asp-action="Index">Transactions</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" asp-controller="Transactions" asp-action="TransactionReport">Transaction Report</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" asp-controller="Home" asp-action="ContactUs">ContactUs</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" asp-controller="Home" asp-action="Services">Services</a>
+                        </li>
+                        </ul>
+                </div>
+            </div>
+        </nav>
+
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+     
+    <footer class="border-top footer text-muted">
+
+        <!-- Footer -->
+        <div class="row justify-content-evenly bg-dark text-white pt-2 pb-5">
+            <div class="col-md-3 pt-4">
+                <h5 class="pb-2">Inventory management System</h5>
+                <p>
+                    ewqjnflalkamdfasfkakskfa;sd
+                    sdqkkpqowkpqwkpkqwopdwqdq
+                    xkncxdpfokaskndoqwdwe90weww879etrqwfdv
+                </p>
+
+            </div>
+            <div class="col-md-3 pt-4">
+                <h5 class="pb-2">Important Links</h5>
+                <p>
+                    <a href="#" class="link-light text-decoration-none">Home</a><br>
+                    <a href="#" class="link-light text-decoration-none">AboutUs</a><br>
+                    <a href="#" class="link-light text-decoration-none">Client</a><br>
+                    <a href="#" class="link-light text-decoration-none">Services</a><br>
+
+                </p>
+
+            </div>
+            <div class="col-md-3 pt-4">
+                <h5 class="pb-2">ContactUs</h5>
+                <p>
+                    flat no 201 Sai Prasad apartment Behind RMDSSOE <br>Warje Pune - 411058
+                    <br> <i class="bi bi-telephone text-danger"></i>
+                    :8329952309
+                </p>
+            </div>
+        </div>
+
+        </div>
+        <!-- Copy right-->
+        <div class="row bg-secondary text-white text-center p-2">
+            <div class="col-12">
+                <p>CopyRight 2000-2024 by Mukesh.All Rights Reserved </p>
+            </div>
+
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

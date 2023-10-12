@@ -1,0 +1,107 @@
+﻿@model IEnumerable<Inventory_Managment.Models.ItemMaster>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Item Management</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/styles.css"> <!-- Link to your custom CSS file -->
+    <style>
+        body {
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+            .page-header h1 {
+                font-size: 36px;
+                color: #007BFF;
+                font-weight: bold; /* Make it a little bit bolder */
+            }
+
+        .btn-create {
+            margin-bottom: 20px;
+            transition: transform 0.3s ease-in-out;
+        }
+
+            .btn-create:hover {
+                transform: scale(1.05);
+            }
+
+        .table {
+            background-color: #fff;
+            border-collapse: collapse;
+        }
+
+            .table th, .table td {
+                padding: 10px 80px; /* Adjust the padding to increase column spacing */
+            }
+
+            .table thead th {
+                background-color: #007BFF;
+                color: #fff;
+            }
+
+            .table tbody tr {
+                border-bottom: 1px solid #000;
+            }
+
+        .btn-action {
+            margin-right: 5px;
+        }
+
+            .btn-action:hover {
+                transform: scale(1.05);
+            }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="page-header">
+            <h1>Item Management</h1>
+        </div>
+        <a class="btn btn-primary btn-create" asp-action="Create">Create New</a>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.ItemName)</th>
+                    <th>@Html.DisplayNameFor(model => model.Uom)</th>
+                    <th>@Html.DisplayNameFor(model => model.Mrp)</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.ItemName)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Uom)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Mrp)</td>
+                        <td>
+                            <a class="btn btn-primary btn-action" asp-action="Edit" asp-route-id="@item.ItemCode">Edit</a>
+                            <a class="btn btn-success btn-action" asp-action="Details" asp-route-id="@item.ItemCode">Details</a>
+                            <a class="btn btn-danger btn-action" asp-action="Delete" asp-route-id="@item.ItemCode">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

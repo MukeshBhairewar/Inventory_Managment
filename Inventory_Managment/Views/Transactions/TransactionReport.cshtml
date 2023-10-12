@@ -1,0 +1,226 @@
+﻿@model Inventory_Managment.Models.TransactionReportViewModel
+@using System.Data
+@{
+    ViewData["Title"] = "Transaction Report";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction Report</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 36px;
+            color: #007BFF;
+            font-weight: bold;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        .table {
+            width: 100%;
+            background-color: #fff;
+            border-collapse: collapse;
+        }
+
+            .table th, .table td {
+                border: 1px solid #ccc;
+                padding: 12px;
+                text-align: center;
+            }
+
+            .table th {
+                background-color: #007BFF;
+                color: #fff;
+            }
+
+            .table tbody tr {
+                border-bottom: 1px solid #000;
+            }
+
+        .btn-primary {
+            margin-bottom: 20px;
+        }
+
+        .calendar-box {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            text-align: center;
+            margin: 20px;
+        }
+
+            .calendar-box h2 {
+                font-size: 18px;
+            }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Transaction Report</h1>
+        <form method="post">
+            <div class="form-group">
+                <label asp-for="Transaction.ItemCode" class="control-label">Select Item Code:</label>
+                <select asp-for="Transaction.ItemCode" class="form-control" asp-items="ViewBag.ItemCode"></select>
+            </div>
+            <div class="form-group">
+                <label for="startDate">Start Date:</label>
+                <input type="date" class="form-control" id="startDate" asp-for="Transaction.FromDate">
+            </div>
+            <div class="form-group">
+                <label for="endDate">End Date:</label>
+                <input type="date" class="form-control" id="endDate" asp-for="Transaction.ToDate">
+            </div>
+            <button type="submit" class="btn btn-primary">Filter</button>
+        </form>
+
+        @if (Model != null && Model.ItemReportsDataTable != null && Model.ItemReportsDataTable.Rows.Count > 0)
+        {
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Transaction Date</th>
+                        <th>Transaction Type</th>
+                        <th>Receipt Quantity</th>
+                        <th>Issue Quantity</th>
+                        <th>Closing Quantity</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (System.Data.DataRow row in Model.ItemReportsDataTable.Rows)
+                    {
+                        <tr>
+                            <td>@row["Item"]</td>
+                            <td>@(((DateTime)row["TransactionDate"]).ToShortDateString())</td>
+                            <td>@row["TransactionType"]</td>
+                            <td>@row["ReceiptQuantity"]</td>
+                            <td>@row["IssueQuantity"]</td>
+                            <td>@row["ClosingQuantity"]</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <form method="post" action="@Url.Action("ExportExcel", "Transactions")">
+                <input type="hidden" name="ItemCode" value="@Model.Transaction.ItemCode" />
+                <input type="hidden" name="FromDate" value="@Model.Transaction.FromDate" />
+                <input type="hidden" name="ToDate" value="@Model.Transaction.ToDate" />
+                <input type="hidden" id="exportFlag" name="exportFlag" value="true">
+                <button id="exportButton" class="btn btn-success">Export Report</button>
+            </form>
+        }
+        else
+        {
+            <p>No data available.</p>
+        }
+
+
+        @if (Model != null && Model.ItemReportsDataTable != null && Model.ItemReportsDataTable.Rows.Count > 0)
+        {
+            var fromDate = Model.Transaction.FromDate;
+            var toDate = Model.Transaction.ToDate;
+
+            if (fromDate != DateTime.MinValue && toDate != DateTime.MinValue && fromDate <= toDate)
+            {
+                // Generate a list of dates within the selected range
+                var dateRange = Enumerable.Range(0, (toDate - fromDate).Days + 1)
+                .Select(offset => fromDate.Date.AddDays(offset))
+                .ToList();
+
+                var filteredRows = Model.ItemReportsDataTable.AsEnumerable()
+                .Where(r =>
+                {
+                    var transactionDate = r.Field<DateTime>("TransactionDate").Date;
+                    return transactionDate >= fromDate.Date && transactionDate <= toDate.Date;
+                })
+                .ToList();
+
+                if (filteredRows.Count > 0)
+                {
+                    <div class="calendar-box">
+                        <h2>Datewise Closing Quantity for @fromDate.ToString("dd-MM-yyyy") to @toDate.ToString("dd-MM-yyyy")</h2>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="d-flex justify-content-center">
+                                    <!-- Center the table -->
+                                    <table class="table table-bordered">
+                                        <tbody>
+                                            <tr>
+                                                <th>Date</th>
+                                                <th>Closing Quantity</th>
+                                            </tr>
+                                            @foreach (var date in dateRange)
+                                            {
+                                                var matchingRow = filteredRows.FirstOrDefault(r => r.Field<DateTime>("TransactionDate").Date == date);
+                                                if (matchingRow != null)
+                                                {
+                                                    var closingQuantity = matchingRow.Field<int>("ClosingQuantity");
+
+                                                    <tr>
+                                                        <td>@date.ToString("dd-MM-yyyy")</td>
+                                                        <td>@closingQuantity</td>
+                                                    </tr>
+                                                }
+                                                else
+                                                {
+                                // Handle dates without data
+                                                    <tr>
+                                                        <td>@date.ToString("dd-MM-yyyy")</td>
+                                                        <td>0</td>
+                                                    </tr>
+                                                }
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <p>No data available for the selected date range.</p>
+                }
+            }
+            else
+            {
+                <p>Invalid date range selected.</p>
+            }
+        }
+        else
+        {
+            <p>No data available.</p>
+        }
+
+
+
+        <script>
+            document.getElementById("exportButton").addEventListener("click", function () {
+                document.getElementById("exportFlag").value = "true";
+                document.querySelector("form").submit();
+            });
+        </script>
+    </div>
+</body>
+</html>

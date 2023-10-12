@@ -1,0 +1,107 @@
+﻿@model Inventory_Managment.Models.ItemMaster
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Item Details</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: center; /* Center the content */
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+            .page-header h1 {
+                font-size: 36px;
+                color: #007BFF;
+                font-weight: bold;
+            }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label.control-label {
+            font-weight: bold;
+        }
+
+        /* Style text boxes with increased border width */
+        .form-control {
+            border-width: 2px;
+        }
+
+        /* Style the "Edit" and "Back to List" links */
+        .btn-action {
+            background-color: #007BFF;
+            color: #fff;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            margin-right: 10px;
+            transition: transform 0.3s ease-in-out;
+        }
+
+            .btn-action:hover {
+                transform: scale(1.05);
+                background-color: #0056b3;
+            }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="page-header">
+            <h1>Item Details</h1>
+        </div>
+        <div>
+            <h4>Item Details</h4>
+            <hr />
+            <dl class="row">
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.ItemName)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.ItemName)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Uom)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Uom)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Mrp)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Mrp)
+                </dd>
+            </dl>
+        </div>
+        <div>
+            <a class="btn btn-action" asp-action="Edit" asp-route-id="@Model?.ItemCode">Edit</a>
+            <a class="btn btn-action" asp-action="Index">Back to List</a>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

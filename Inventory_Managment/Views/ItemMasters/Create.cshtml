@@ -1,0 +1,116 @@
+﻿@model Inventory_Managment.Models.ItemMaster
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Item</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: center; /* Center the form */
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+            .page-header h1 {
+                font-size: 36px;
+                color: #007BFF;
+                font-weight: bold;
+            }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label.control-label {
+            font-weight: bold;
+        }
+
+        .btn-create {
+            margin-top: 20px;
+            margin-right: 10px; /* Add margin to separate buttons */
+            transition: transform 0.3s ease-in-out;
+        }
+
+            .btn-create:hover {
+                transform: scale(1.05);
+            }
+
+        /* Style text boxes with increased border width */
+        .form-control {
+            border-width: 2px;
+        }
+
+        /* Style the "Back to List" button with success color */
+        .btn-back a {
+            background-color: #28a745;
+            color: #fff;
+        }
+
+            /* Add hover effect to the "Back to List" button */
+            .btn-back a:hover {
+                background-color: #218838;
+            }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="page-header">
+            <h1>Create Item</h1>
+        </div>
+        <div class="row">
+            <div class="col-md-4 offset-md-4">
+                <!-- Center the form -->
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="ItemCode" class="control-label">Item Code</label>
+                        <input asp-for="ItemCode" class="form-control" />
+                        <span asp-validation-for="ItemCode" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ItemName" class="control-label">Item Name</label>
+                        <input asp-for="ItemName" class="form-control" />
+                        <span asp-validation-for="ItemName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Uom" class="control-label">Unit of Measure</label>
+                        <input asp-for="Uom" class="form-control" />
+                        <span asp-validation-for="Uom" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Mrp" class="control-label">MRP</label>
+                        <input asp-for="Mrp" class="form-control" />
+                        <span asp-validation-for="Mrp" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-create">Create</button>
+                        <a asp-action="Index" class="btn btn-success btn-create">Back to List</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
